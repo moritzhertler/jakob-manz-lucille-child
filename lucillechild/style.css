@@ -1,0 +1,16 @@
+/*
+ Theme Name:   Lucille Child
+ Theme URI:    http://www.smartwpress.com/lucille/
+ Description:  Lucille Music Child Theme
+ Author:       SmartWPress
+ Author URI:   http://themeforest.net/user/SmartWPress
+ Template:     lucille
+ Version:      1.0.0
+ Tags:         fluid-layout, responsive-layout, editor-style, featured-images, full-width-template, theme-options, translation-ready, custom-background, custom-colors, custom-menu, one-column, two-columns, black, dark
+ Text Domain:  lucille-child
+*/
+
+@import url("../lucille/style.css");
+
+/* Theme customization starts here
+-------------------------------------------------------------- */
