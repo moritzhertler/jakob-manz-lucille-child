@@ -1,5 +1,8 @@
 <?php
 
+require_once(get_theme_file_path('includes/jm_events_options.php'));
+
+
     function jm_log(string $message): string
     {
         static $log = '';
