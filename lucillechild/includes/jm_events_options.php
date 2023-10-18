@@ -183,28 +183,6 @@ function jm_events_register_settings()
             'label' => 'Send a hint if the response contains an incomplete event address.'
         )
     );
-    add_settings_field(
-        'system-one-hints-status-o',
-        'Status "O"',
-        'jm_events_checkbox_field',
-        'jm-events-options',
-        'system-one-hints-section',
-        array(
-            'name'  => 'system-one-hints-status-o',
-            'label' => 'Send a hint if the response contains an event with the status "O".'
-        )
-    );
-    add_settings_field(
-        'system-one-hints-status-c',
-        'Status "C"',
-        'jm_events_checkbox_field',
-        'jm-events-options',
-        'system-one-hints-section',
-        array(
-            'name'  => 'system-one-hints-status-c',
-            'label' => 'Send a hint if the response contains an event with the status "C".'
-        )
-    );
 }
 
 function jm_events_section_logs_callback()
@@ -249,8 +227,6 @@ function jm_events_validate_settings($input)
     // system one hints section
     $output['system-one-hints-email'] = $input['system-one-hints-email'];
     jm_events_set_checkbox('system-one-hints-incomplete-address', $input, $output);
-    jm_events_set_checkbox('system-one-hints-status-o', $input, $output);
-    jm_events_set_checkbox('system-one-hints-status-c', $input, $output);
 
     return $output;
 }
