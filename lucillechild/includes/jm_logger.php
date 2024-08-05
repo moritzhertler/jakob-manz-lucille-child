@@ -14,7 +14,7 @@ class JMLogger
 
     public function hasError(): bool
     {
-        return $this->hasWarning;
+        return $this->hasError;
     }
 
     public function log(string $message)
