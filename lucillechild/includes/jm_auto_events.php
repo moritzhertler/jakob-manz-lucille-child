@@ -291,9 +291,12 @@ class JMAutoEventsAction
 
         $artist = $event['artist'];
 
+        $use_event_name_as_title = array_key_exists('use_event_name_as_title', $event['artist']) && $event['artist']['use_event_name_as_title'];
+        $post_title = $use_event_name_as_title && $event['name'] !== '' ? $event['name'] : $artist['name'];
+
         $post = array(
             'post_author' => 2,
-            'post_title' => $artist['name'],
+            'post_title' => $post_title,
             'post_status' => 'publish',
             'post_type' => 'js_events',
             'post_content' => $event['name'],
