@@ -2,32 +2,32 @@
 
 /**
  * # Overview of options ids
- * 
+ *
  * ## General ids/slugs
- * 
+ *
  * page id/menu slug: jm-events-options
  * option group: 'jm-events-settings-group'
  * option name: jm-events
  * option page hook suffix: settings_page_jm-events-options
- * 
+ *
  * ## all sections by section id and their fields by field id and input type
- *  
+ *
  * - logs-section
- *     - logs-email                             (text/email)            
- *     - logs-include-response                  (checkbox)              
+ *     - logs-email                             (text/email)
+ *     - logs-include-response                  (checkbox)
  * - system-one-section
- *     - system-one-api-url                     (text/url)              
+ *     - system-one-api-url                     (text/url)
  *     - system-one-entity                      (text)
  *     - system-one-upcoming-limit              (number/positive)
  *     - system-one-artists                     (textarea/json)
  * - system-one-hints-section
  *     - system-one-hints-email                 (text/email)
+ *     - system-one-hints-no-venue              (checkbox)
+ *     - system-one-hints-no-venue-name         (checkbox)
  *     - system-one-hints-incomplete-address    (checkbox)
- *     - system-one-hints-status-o              (checkbox)
- *     - system-one-hints-status-c              (checkbox)
  */
 
-// add new options page 
+// add new options page
 add_action('admin_menu', 'jm_events_setup_page');
 function jm_events_setup_page()
 {
@@ -173,6 +173,28 @@ function jm_events_register_settings()
         )
     );
     add_settings_field(
+        'system-one-hints-no-venue',
+        'No Venue',
+        'jm_events_checkbox_field',
+        'jm-events-options',
+        'system-one-hints-section',
+        array(
+            'name'  => 'system-one-hints-no-venue',
+            'label' => 'Send a hint if the response contains an event with no venue.'
+        )
+    );
+    add_settings_field(
+        'system-one-hints-no-venue-name',
+        'No Venue Name',
+        'jm_events_checkbox_field',
+        'jm-events-options',
+        'system-one-hints-section',
+        array(
+            'name'  => 'system-one-hints-no-venue-name',
+            'label' => 'Send a hint if the response contains an event no venue name.'
+        )
+    );
+    add_settings_field(
         'system-one-hints-incomplete-address',
         'Incomplete Address',
         'jm_events_checkbox_field',
@@ -180,7 +202,7 @@ function jm_events_register_settings()
         'system-one-hints-section',
         array(
             'name'  => 'system-one-hints-incomplete-address',
-            'label' => 'Send a hint if the response contains an incomplete event address.'
+            'label' => 'Send a hint if the response contains a venue with an incomplete address.'
         )
     );
 }
@@ -226,6 +248,8 @@ function jm_events_validate_settings($input)
 
     // system one hints section
     $output['system-one-hints-email'] = $input['system-one-hints-email'];
+    jm_events_set_checkbox('system-one-hints-no-venue', $input, $output);
+    jm_events_set_checkbox('system-one-hints-no-venue-name', $input, $output);
     jm_events_set_checkbox('system-one-hints-incomplete-address', $input, $output);
 
     return $output;
@@ -251,8 +275,8 @@ function jm_events_check_empty_string(array $input, string $field_id, bool $add_
 
 /**
  * A text input.
- * 
- * ### Args 
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  */
@@ -266,8 +290,8 @@ function jm_events_text_field($args)
 
 /**
  * An email input (i.e. text input that only accepts valid emails).
- * 
- * ### Args 
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  */
@@ -281,8 +305,8 @@ function jm_events_email_field($args)
 
 /**
  * An url input (i.e. text input that only accepts valid urls).
- * 
- * ### Args 
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  */
@@ -295,9 +319,9 @@ function jm_events_url_field($args)
 }
 
 /**
- * A number input.  
- * 
- * ### Args 
+ * A number input.
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  * `min`: The min value
@@ -312,9 +336,9 @@ function jm_events_number_field($args)
 }
 
 /**
- * A checkbox.  
- * 
- * ### Args 
+ * A checkbox.
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  */
@@ -327,9 +351,9 @@ function jm_events_checkbox_field($args)
 }
 
 /**
- * A hidden textarea with a linked CodeMirror code editor with json syntax highlighting.  
- * 
- * ### Args 
+ * A hidden textarea with a linked CodeMirror code editor with json syntax highlighting.
+ *
+ * ### Args
  * `name`: The field id
  * `label`: The description displayed below the input
  */

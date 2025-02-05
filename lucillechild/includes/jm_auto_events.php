@@ -233,8 +233,21 @@ class JMAutoEventsAction
         }
         $date = $this->get_event_date_string($timestamp);
 
+        if ($event->venue === null) {
+            $message = "Event $id has no venue";
+            $this->logger->error($message);
+            if ($this->options['system-one-hints-no-venue']) {
+                $this->hints->error($message);
+            }
+            return null;
+        }
+
         if ($event->venue->name === null || $event->venue->name === '') {
-            $this->logger->error("Venue {$event->venue->id} of event $id has no name");
+            $message = "Venue {$event->venue->id} of event $id has no name";
+            $this->logger->error($message);
+            if ($this->options['system-one-hints-no-venue-name']) {
+                $this->hints->error($message);
+            }
             return null;
         }
         $venue_name = $event->venue->name;
